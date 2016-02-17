@@ -28,7 +28,10 @@
 		if(is_null($blobcreated))
 		{
 			// fall back to default q2a core behavior
-			return rtrim(QA_BLOBS_DIRECTORY, '/').'/'.substr(str_pad($blobid, 20, '0', STR_PAD_LEFT), 0, 3);
+			// return rtrim(QA_BLOBS_DIRECTORY, '/').'/'.substr(str_pad($blobid, 20, '0', STR_PAD_LEFT), 0, 3);
+			
+			// file does not exist, makes no sense to allow it
+			return null;
 		}
 		else 
 		{
@@ -64,6 +67,25 @@
 		}
 
 		return $written;
+	}
+
+	/*
+		Read the content of blob $blobid in $format from disk. On failure, it will return false.
+		BUGFIX - CHECK IF FILE EXISTS
+	*/
+	function qa_read_blob_file($blobid, $format)
+	{
+		$filename = qa_get_blob_filename($blobid, $format);
+		if(file_exists($filename))
+		{
+			return file_get_contents($filename);
+		}
+		else
+		{
+			// logging
+			// error_log('Requested blobid '.$blobid.' does not exist. Filename: '.$filename);
+			return null;
+		}
 	}
 
 /*
