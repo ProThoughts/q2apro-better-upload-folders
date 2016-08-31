@@ -76,7 +76,7 @@
 	function qa_read_blob_file($blobid, $format)
 	{
 		$filename = qa_get_blob_filename($blobid, $format);
-		if(file_exists($filename))
+		if(isset($filename) && file_exists($filename))
 		{
 			return file_get_contents($filename);
 		}
