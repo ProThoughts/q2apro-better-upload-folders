@@ -78,6 +78,10 @@
 		$filename = qa_get_blob_filename($blobid, $format);
 		if(isset($filename) && file_exists($filename))
 		{
+			if($filename=='./' || $filename=='/.' || $filename=='.')
+			{
+				return null;
+			}
 			return file_get_contents($filename);
 		}
 		else
